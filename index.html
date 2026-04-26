@@ -186,7 +186,7 @@ h1 {
   height: 100%;
   border-radius: 9999px;
   background: linear-gradient(90deg, #c2410c 0%, #d97706 28%, #0f766e 68%, #94a3b8 100%);
-  width: 63%;
+  width: 66%;
   transition: width 1.2s ease;
 }
 .score-breakdown {
@@ -460,7 +460,7 @@ footer {
     </div>
     <div class="summary-card">
       <h3>🎯 สรุปภาพรวม</h3>
-      <p>เรามีรากฐานแข็งแรง — external brain ทำงานได้ ปรัชญาตรงกัน แต่ orchestration, workflow และ compliance ยังเป็นจุดอ่อนหลัก คะแนน 63/100 หมายถึง "รากฐานดี ต้องเสริม workflow และ docs"</p>
+      <p>เรามีรากฐานแข็งแรง — external brain ทำงานได้ ปรัชญาตรงกัน แต่ orchestration, workflow และ compliance ยังเป็นจุดอ่อนหลัก คะแนน 66/100 หมายถึง "รากฐานดี ต้องเสริม workflow และ docs"</p>
     </div>
   </div>
 </section>
@@ -519,8 +519,8 @@ footer {
           <td><strong>04</strong></td>
           <td>Oracle Brain (5 ชั้น)</td>
           <td>MCP + HTTP API + SQLite FTS5 + LanceDB vectors + psi vault</td>
-          <td><span class="badge badge-partial">⚠️ บางส่วน</span></td>
-          <td>มี Oracle v3 (hybrid FTS5+vector), dashboard UI, psi vault — แต่ใช้ OpenClaw gateway เป็น MCP proxy แทน arra-oracle-v3 MCP server ตรง</td>
+          <td><span class="badge badge-full">✅ มีครบ</span></td>
+          <td>Oracle v3 MCP server (stdio) ตรง → Agent, hybrid FTS5+vector, dashboard UI, psi vault, 5 tool groups (search/knowledge/session/forum/trace)</td>
         </tr>
         <!-- Ch05 -->
         <tr>
@@ -878,9 +878,9 @@ footer {
         <tr>
           <td><strong>Memory & Search</strong><br><small>Oracle v3, hybrid search, MCP, HTTP API, reindex</small></td>
           <td>20%</td>
-          <td><span style="color:var(--green);font-weight:700">75/100</span></td>
-          <td>15.0</td>
-          <td>v3 ทำงานได้, hybrid search มี, แต่ MCP proxy ไม่ใช่ native</td>
+          <td><span style="color:var(--green);font-weight:700">90/100</span></td>
+          <td>18.0</td>
+          <td>v3 MCP server ตรง (stdio), hybrid search ครบ, 5 tool groups, dashboard, psi vault</td>
         </tr>
         <tr>
           <td><strong>Orchestration</strong><br><small>Delegation tiers, Task Brief, fleet management, reporting</small></td>
@@ -913,9 +913,9 @@ footer {
         <tr>
           <td><strong>รวม</strong></td>
           <td>100%</td>
-          <td><span style="color:var(--accent);font-weight:800">63/100</span></td>
-          <td><strong>59.0 + judgment uplift = 63</strong></td>
-          <td>ให้ uplift จากความชัดเจนของ philosophy, skills SSOT และ bidirectional sync ที่แข็งแรงกว่าค่าเฉลี่ย</td>
+          <td><span style="color:var(--accent);font-weight:800">66/100</span></td>
+          <td><strong>62.0 + judgment uplift = 66</strong></td>
+          <td>ให้ uplift จากความชัดเจนของ philosophy, skills SSOT, bidirectional sync และ MCP direct access</td>
         </tr>
       </tbody>
     </table>
@@ -926,7 +926,7 @@ footer {
   <p><strong>60-69</strong> = foundation ดี ใช้งานจริงได้ แต่ orchestration/compliance ยังไม่ mature<br>
   <strong>70-79</strong> = strong operator stack เริ่มเข้าใกล้ Oracle-native workflow<br>
   <strong>80+</strong> = ใกล้ Oracle 101 best practices ครบทุกมิติ</p>
-  <p>ดังนั้น 63/100 แปลว่า <strong>"ฐานแน่นแล้ว แต่ยังไม่เป็น full Oracle workflow machine"</strong> ค่ะ</p>
+  <p>ดังนั้น 66/100 แปลว่า <strong>"ฐานแน่นแล้ว แต่ยังไม่เป็น full Oracle workflow machine"</strong> ค่ะ</p>
 </section>
 
 <footer>
