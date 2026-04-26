@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oracle 101 Assessment — Atom's Stack vs Best Practices</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --orange: #db6d28;
+  --red: #f85149;
+  --purple: #bc8cff;
+  --score-bg: linear-gradient(135deg, #1a1e2e 0%, #0d1117 100%);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #ffffff;
+    --surface: #f6f8fa;
+    --border: #d0d7de;
+    --text: #1f2328;
+    --text-muted: #656d76;
+    --accent: #0969da;
+    --green: #1a7f37;
+    --yellow: #9a6700;
+    --orange: #bc4c00;
+    --red: #cf222e;
+    --purple: #8250df;
+    --score-bg: linear-gradient(135deg, #f6f8fa 0%, #ffffff 100%);
+  }
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Thai', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  padding: 0 1rem;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: .25rem;
+  background: linear-gradient(135deg, var(--accent), var(--purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+  font-size: .95rem;
+}
+
+/* Score Hero */
+.score-hero {
+  background: var(--score-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2.5rem;
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.score-number {
+  font-size: 5rem;
+  font-weight: 800;
+  line-height: 1;
+  background: linear-gradient(135deg, var(--green), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.score-label {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  margin-top: .25rem;
+}
+
+.score-bar-wrap {
+  margin-top: 1.5rem;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.score-bar {
+  height: 12px;
+  background: var(--surface);
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.score-bar-fill {
+  height: 100%;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--red) 0%, var(--orange) 30%, var(--yellow) 55%, var(--green) 80%);
+  width: 63%;
+  transition: width 1.5s ease;
+}
+
+.score-breakdown {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: .75rem;
+  margin-top: 1.5rem;
+}
+
+.score-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: .75rem;
+}
+
+.score-item-label {
+  font-size: .75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.score-item-value {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-top: .25rem;
+}
+
+/* Navigation */
+.toc {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.toc h2 {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin-bottom: .75rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.toc ol {
+  padding-left: 1.25rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: .5rem;
+}
+
+.toc a {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: .95rem;
+}
+
+.toc a:hover { text-decoration: underline; }
+
+/* Sections */
+section {
+  margin-bottom: 3rem;
+  scroll-margin-top: 2rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: .5rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+h3 {
+  font-size: 1.15rem;
+  margin: 1.5rem 0 .75rem;
+}
+
+p { margin-bottom: .75rem; color: var(--text); }
+
+/* Executive Summary Cards */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.summary-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.summary-card h3 {
+  margin: 0 0 .5rem;
+  font-size: 1rem;
+}
+
+.summary-card p {
+  font-size: .9rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* Tables */
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin: 1rem 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .88rem;
+}
+
+thead {
+  background: var(--surface);
+}
+
+th {
+  padding: .75rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-size: .75rem;
+  letter-spacing: .05em;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+td {
+  padding: .7rem 1rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+tr:last-child td { border-bottom: none; }
+
+tr:hover { background: color-mix(in srgb, var(--surface) 50%, transparent); }
+
+/* Status badges */
+.badge {
+  display: inline-block;
+  padding: .15rem .6rem;
+  border-radius: 999px;
+  font-size: .75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge-full { background: #1a3a1a; color: var(--green); }
+.badge-partial { background: #3a2a0a; color: var(--yellow); }
+.badge-missing { background: #3a1a1a; color: var(--red); }
+.badge-p0 { background: #3a1a1a; color: var(--red); }
+.badge-p1 { background: #3a2a0a; color: var(--yellow); }
+.badge-p2 { background: #1a2a3a; color: var(--accent); }
+.badge-s { background: #1a2a1a; color: var(--green); }
+.badge-m { background: #3a2a0a; color: var(--yellow); }
+.badge-l { background: #3a1a1a; color: var(--red); }
+
+@media (prefers-color-scheme: light) {
+  .badge-full { background: #dafbe1; color: var(--green); }
+  .badge-partial { background: #fff8c5; color: #7d6608; }
+  .badge-missing { background: #ffebe9; color: var(--red); }
+  .badge-p0 { background: #ffebe9; color: var(--red); }
+  .badge-p1 { background: #fff8c5; color: #7d6608; }
+  .badge-p2 { background: #ddf4ff; color: #0550ae; }
+  .badge-s { background: #dafbe1; color: var(--green); }
+  .badge-m { background: #fff8c5; color: #7d6608; }
+  .badge-l { background: #ffebe9; color: var(--red); }
+}
+
+/* Gap analysis */
+.gap-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  margin-bottom: .75rem;
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  gap: .75rem;
+  align-items: center;
+}
+
+.gap-item p {
+  margin: 0;
+  font-size: .9rem;
+}
+
+.gap-title {
+  font-weight: 600;
+  margin-bottom: .2rem !important;
+}
+
+.gap-desc {
+  color: var(--text-muted);
+  font-size: .85rem !important;
+}
+
+/* Recommendations */
+.rec-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 10px 10px 0;
+  padding: 1rem 1.25rem;
+  margin-bottom: .75rem;
+}
+
+.rec-item h4 {
+  font-size: 1rem;
+  margin-bottom: .3rem;
+}
+
+.rec-item p {
+  font-size: .9rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.rec-item .rec-meta {
+  display: flex;
+  gap: .5rem;
+  margin-top: .5rem;
+  flex-wrap: wrap;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: .8rem;
+  padding: 2rem 0;
+  border-top: 1px solid var(--border);
+  margin-top: 2rem;
+}
+
+footer a { color: var(--accent); text-decoration: none; }
+
+/* Responsive */
+@media (max-width: 640px) {
+  .score-number { font-size: 3.5rem; }
+  .gap-item { grid-template-columns: 1fr; }
+  .gap-item .badge { justify-self: start; }
+  h1 { font-size: 1.5rem; }
+  .toc ol { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- Hero -->
+<h1>🔮 Oracle 101 Assessment</h1>
+<p class="subtitle">เปรียบเทียบระบบของ Atom (Anya + Alice + Oracle v3) กับ best practices จาก Oracle 101 ebook<br>สร้างเมื่อ 26 เม.ย. 2026 — อ้างอิง <a href="https://oracle101.vercel.app/">oracle101.vercel.app</a></p>
+
+<!-- Score -->
+<div class="score-hero" id="score">
+  <div class="score-number">63<span style="font-size:2.5rem">/100</span></div>
+  <div class="score-label">Overall Compliance Score</div>
+  <div class="score-bar-wrap">
+    <div class="score-bar"><div class="score-bar-fill"></div></div>
+  </div>
+  <div class="score-breakdown">
+    <div class="score-item">
+      <div class="score-item-label">Foundation</div>
+      <div class="score-item-value" style="color:var(--green)">90/100</div>
+    </div>
+    <div class="score-item">
+      <div class="score-item-label">Memory & Search</div>
+      <div class="score-item-value" style="color:var(--green)">75/100</div>
+    </div>
+    <div class="score-item">
+      <div class="score-item-label">Orchestration</div>
+      <div class="score-item-value" style="color:var(--yellow)">55/100</div>
+    </div>
+    <div class="score-item">
+      <div class="score-item-label">Workflow & SDLC</div>
+      <div class="score-item-value" style="color:var(--orange)">45/100</div>
+    </div>
+    <div class="score-item">
+      <div class="score-item-label">Compliance</div>
+      <div class="score-item-value" style="color:var(--red)">30/100</div>
+    </div>
+    <div class="score-item">
+      <div class="score-item-label">Autonomous Ops</div>
+      <div class="score-item-value" style="color:var(--yellow)">60/100</div>
+    </div>
+  </div>
+</div>
+
+<!-- TOC -->
+<nav class="toc">
+  <h2>📑 สารบัญ</h2>
+  <ol>
+    <li><a href="#executive-summary">Executive Summary</a></li>
+    <li><a href="#matrix">Assessment Matrix</a></li>
+    <li><a href="#gaps">Gap Analysis</a></li>
+    <li><a href="#recommendations">Recommendations</a></li>
+    <li><a href="#score-detail">Score Breakdown</a></li>
+  </ol>
+</nav>
+
+<!-- 1. Executive Summary -->
+<section id="executive-summary">
+  <h2>📋 Executive Summary</h2>
+
+  <div class="summary-grid">
+    <div class="summary-card">
+      <h3>✅ ที่เราทำได้ดี</h3>
+      <p>ปรัชญา 5 Principles + Rule 6 ยึดมั่นอยู่แล้ว, ψ vault structure มีครบ, Oracle v3 รันได้, Skills SSOT ชัดเจน, bidirectional sync ทำงาน, cron 7 ตัวดูแลระบบ</p>
+    </div>
+    <div class="summary-card">
+      <h3>⚠️ ที่ยังขาดอยู่</h3>
+      <p>maw-js orchestration layer, T3 Federation, CMMI Level 3 docs, RTM traceability, safety hooks ครบ, heartbeat protocol ระดับ agent, QA feedback loop, event triggers</p>
+    </div>
+    <div class="summary-card">
+      <h3>🎯 สรุปภาพรวม</h3>
+      <p>เรามีรากฐานแข็งแรง — external brain ทำงานได้ ปรัชญาตรงกัน แต่ orchestration, workflow และ compliance ยังเป็นจุดอ่อนหลัก คะแนน 63/100 หมายถึง "รากฐานดี ต้องเสริม workflow และ docs"</p>
+    </div>
+  </div>
+</section>
+
+<!-- 2. Assessment Matrix -->
+<section id="matrix">
+  <h2>📊 Assessment Matrix</h2>
+  <p>เปรียบเทียบทุกบทของ Oracle 101 กับสิ่งที่เรามี (✅), มีบางส่วน (⚠️), หรือยังไม่มี (❌)</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>บท</th>
+          <th>หัวข้อหลัก</th>
+          <th>Best Practice (Oracle 101)</th>
+          <th>สถานะเรา</th>
+          <th>รายละเอียด</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Ch00 -->
+        <tr>
+          <td><strong>00</strong></td>
+          <td>บทนำ</td>
+          <td>เข้าใจที่มาและ philosophy ของ Oracle</td>
+          <td><span class="badge badge-full">✅ มีครบ</span></td>
+          <td>อ่าน ebook ทั้งเล่ม, เข้าใจ 5 Principles + Rule 6, มี SOUL.md</td>
+        </tr>
+        <!-- Ch01 -->
+        <tr>
+          <td><strong>01</strong></td>
+          <td>Oracle คืออะไร</td>
+          <td>External brain, 5 Principles + Rule 6, Cold/Warm God, Unity Formula</td>
+          <td><span class="badge badge-full">✅ มีครบ</span></td>
+          <td>SOUL.md มีหลักการ, external brain ทำงานผ่าน Oracle v3 + OpenClaw memory</td>
+        </tr>
+        <!-- Ch02 -->
+        <tr>
+          <td><strong>02</strong></td>
+          <td>สถาปัตยกรรม</td>
+          <td>ψ structure, config map, repo แยกหน้าที่ชัด</td>
+          <td><span class="badge badge-full">✅ มีครบ</span></td>
+          <td>oracle-vault มี ψ structure ครบ, port 47778 ตรง, config map ชัด</td>
+        </tr>
+        <!-- Ch03 -->
+        <tr>
+          <td><strong>03</strong></td>
+          <td>ติดตั้งจาก 0</td>
+          <td>ลำดับ dependency, data dir เดียว, skill profile, end-to-end verify</td>
+          <td><span class="badge badge-full">✅ มีครบ</span></td>
+          <td>ติดตั้งเรียบร้อย, reindex script มี, data dir รวมกลาง, TOOLS.md มี health check</td>
+        </tr>
+        <!-- Ch04 -->
+        <tr>
+          <td><strong>04</strong></td>
+          <td>Oracle Brain (5 ชั้น)</td>
+          <td>MCP + HTTP API + SQLite FTS5 + LanceDB vectors + psi vault</td>
+          <td><span class="badge badge-partial">⚠️ บางส่วน</span></td>
+          <td>มี Oracle v3 (hybrid FTS5+vector), dashboard UI, psi vault — แต่ใช้ OpenClaw gateway เป็น MCP proxy แทน arra-oracle-v3 MCP server ตรง</td>
+        </tr>
+        <!-- Ch05 -->
+        <tr>
+          <td><strong>05</strong></td>
+          <td>Skills, Maw และ Plugin</td>
+          <td>recap/rrr/trace/learn/forward/awaken, maw-js, plugin ecosystem</td>
+          <td><span class="badge badge-partial">⚠️ บางส่วน</span></td>
+          <td>มี skills คล้ายกัน (recap, rrr, trace, learn, where-we-are, oracle-family-scan) — แต่ไม่มี maw-js, ไม่มี plugin runtime</td>
+        </tr>
+        <!-- Ch06 -->
+        <tr>
+          <td><strong>06</strong></td>
+          <td>maw commands (Core 12)</td>
+          <td>init, ls, wake, sleep, stop, health, ping, peek, take, bud, done, oracle ls</td>
+          <td><span class="badge badge-missing">❌ ไม่มี</span></td>
+          <td>ไม่ใช้ maw-js — ใช้ OpenClaw subagent + process management แทน มี equivalent บางตัว</td>
+        </tr>
+        <!-- Ch06B -->
+        <tr>
+          <td><strong>06B</strong></td>
+          <td>Advanced maw (55+)</td>
+          <td>Standard 25 + Extra 30: workon, park/resume, talk-to, fleet, soul-sync, doctor</td>
+          <td><span class="badge badge-missing">❌ ไม่มี</span></td>
+          <td>มี equivalent บางตัว (worktree skill, tmux skill, soul-sync skill) แต่ไม่ใช่ unified CLI</td>
+        </tr>
+        <!-- Ch07 -->
+        <tr>
+          <td><strong>07</strong></td>
+          <td>Orchestration</td>
+          <td>3 Delegation Tiers (Arrows/Squads/Federation), Task Brief, reporting contract, context isolation</td>
+          <td><span class="badge badge-partial">⚠️ บางส่วน</span></td>
+          <td>Alice = orchestrator (เหมือน Gale), Anya = executor — มี T1/T2 (subagent) แต่ไม่มี T3 Federation, มี Hermes Protocol และ reporting contract</td>
+        </tr>
+        <!-- Ch08 -->
+        <tr>
+          <td><strong>08</strong></td>
+          <td>Workflow UseCase</td>
+          <td>Full Pipeline 13 steps, worktree-first, Discord SDLC, heartbeat, QA loop, safety hooks</td>
+          <td><span class="badge badge-partial">⚠️ บางส่วน</span></td>
+          <td>ใช้ Discord SDLC, มี worktree skill, มี nightly retro — แต่ยังไม่มี 13-step pipeline, QA feedback loop, heartbeat protocol, safety hooks ครบ</td>
+        </tr>
+        <!-- Ch08B -->
+        <tr>
+          <td><strong>08B</strong></td>
+          <td>CMMI & Compliance</td>
+          <td>CMMI Level 3, SRS/SDD/UAT/RTM docs, doc-update mandate, Mermaid mandate</td>
+          <td><span class="badge badge-missing">❌ ไม่มี</span></td>
+          <td>ยังไม่มี formal CMMI process, ใช้ markdown เป็น SoT (ตรง Mermaid mandate) แต่ไม่มี SRS/SDD/UAT/RTM template</td>
+        </tr>
+        <!-- Ch09 -->
+        <tr>
+          <td><strong>09</strong></td>
+          <td>Autonomous Ops</td>
+          <td>PM2, cron, systemd, event triggers, auto-standup, operating loop</td>
+          <td><span class="badge badge-partial">⚠️ บางส่วน</span></td>
+          <td>มี launchd (reindex ทุก 6 ชม.), cron 7 ตัว, nightly retro — แต่ไม่มี PM2, ไม่มี agent-idle/crash trigger, ไม่มี event-driven automation</td>
+        </tr>
+        <!-- Ch10 -->
+        <tr>
+          <td><strong>10</strong></td>
+          <td>Troubleshooting</td>
+          <td>5-layer decision tree, health check commands, common problems & fixes</td>
+          <td><span class="badge badge-partial">⚠️ บางส่วน</span></td>
+          <td>มี TOOLS.md (curl health check), reindex script, healthcheck skill — แต่ไม่มี formal decision tree แยกชั้น</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 3. Gap Analysis -->
+<section id="gaps">
+  <h2>🔍 Gap Analysis</h2>
+  <p>รายการสิ่งที่ขาด พร้อม priority และ effort ประเมิน</p>
+
+  <div class="gap-item">
+    <div>
+      <span class="badge badge-p0">P0</span>
+    </div>
+    <div>
+      <p class="gap-title">maw-js orchestration layer</p>
+      <p class="gap-desc">ไม่มี unified CLI คุม fleet — ใช้ OpenClaw subagent แทน ทำให้ไม่มี tmux visibility, capture, peek, done lifecycle</p>
+    </div>
+    <div><span class="badge badge-l">L</span></div>
+    <div><span class="badge badge-missing">❌ ขาด</span></div>
+  </div>
+
+  <div class="gap-item">
+    <div>
+      <span class="badge badge-p0">P0</span>
+    </div>
+    <div>
+      <p class="gap-title">T3 Federation (tmux session จริง)</p>
+      <p class="gap-desc">งานยาวไม่ survive session death — subagent ตายทั้งกลุ่มถ้า parent compact/crash</p>
+    </div>
+    <div><span class="badge badge-l">L</span></div>
+    <div><span class="badge badge-missing">❌ ขาด</span></div>
+  </div>
+
+  <div class="gap-item">
+    <div>
+      <span class="badge badge-p0">P0</span>
+    </div>
+    <div>
+      <p class="gap-title">Safety hooks ครบ (arra-safety-hooks)</p>
+      <p class="gap-desc">มี git pre-push hook แค่บางส่วน — ขาด rm -rf guard, --no-verify block, force push block ครบ</p>
+    </div>
+    <div><span class="badge badge-s">S</span></div>
+    <div><span class="badge badge-partial">⚠️ บางส่วน</span></div>
+  </div>
+
+  <div class="gap-item">
+    <div>
+      <span class="badge badge-p1">P1</span>
+    </div>
+    <div>
+      <p class="gap-title">Heartbeat protocol ระดับ agent</p>
+      <p class="gap-desc">ไม่มี agent-idle detection, ไม่มี STUCK auto-escalate — subagent อาจเงียบจนคนลืม</p>
+    </div>
+    <div><span class="badge badge-m">M</span></div>
+    <div><span class="badge badge-missing">❌ ขาด</span></div>
+  </div>
+
+  <div class="gap-item">
+    <div>
+      <span class="badge badge-p1">P1</span>
+    </div>
+    <div>
+      <p class="gap-title">QA feedback loop (Kati equivalent)</p>
+      <p class="gap-desc">มี Faye (QA) แต่ยังไม่ active — ไม่มี PASS/FAIL loop, ไม่มี auto-route กลับ branch เดิม</p>
+    </div>
+    <div><span class="badge badge-m">M</span></div>
+    <div><span class="badge badge-missing">❌ ขาด</span></div>
+  </div>
+
+  <div class="gap-item">
+    <div>
+      <span class="badge badge-p1">P1</span>
+    </div>
+    <div>
+      <p class="gap-title">CMMI Level 3 docs (SRS/SDD/UAT/RTM)</p>
+      <p class="gap-desc">สำหรับ trading system production ควรมี — ตอนนี้มีแค่ retrospective + learning log</p>
+    </div>
+    <div><span class="badge badge-m">M</span></div>
+    <div><span class="badge badge-missing">❌ ขาด</span></div>
+  </div>
+
+  <div class="gap-item">
+    <div>
+      <span class="badge badge-p1">P1</span>
+    </div>
+    <div>
+      <p class="gap-title">Event triggers (agent-idle, agent-crash, qa-failed, pr-merged)</p>
+      <p class="gap-desc">ระบบยังเป็น cron-based เท่านั้น — ไม่มี event-driven automation</p>
+    </div>
+    <div><span class="badge badge-m">M</span></div>
+    <div><span class="badge badge-missing">❌ ขาด</span></div>
+  </div>
+
+  <div class="gap-item">
+    <div>
+      <span class="badge badge-p1">P1</span>
+    </div>
+    <div>
+      <p class="gap-title">Discord SDLC pipeline tags (REQ→SRS→DEV→QA→DONE)</p>
+      <p class="gap-desc">ใช้ Discord แต่ยังไม่มี formal tag system ตาม lifecycle</p>
+    </div>
+    <div><span class="badge badge-s">S</span></div>
+    <div><span class="badge badge-partial">⚠️ บางส่วน</span></div>
+  </div>
+
+  <div class="gap-item">
+    <div>
+      <span class="badge badge-p2">P2</span>
+    </div>
+    <div>
+      <p class="gap-title">Plugin ecosystem (maw plugins)</p>
+      <p class="gap-desc">ยังใช้ skills markdown ทั้งหมด — ยังไม่มี runtime plugin แยก</p>
+    </div>
+    <div><span class="badge badge-l">L</span></div>
+    <div><span class="badge badge-missing">❌ ขาด</span></div>
+  </div>
+
+  <div class="gap-item">
+    <div>
+      <span class="badge badge-p2">P2</span>
+    </div>
+    <div>
+      <p class="gap-title">Federation / peer transport</p>
+      <p class="gap-desc">ยังทำงานได้แค่ในเครื่องเดียว — ไม่มี cross-machine orchestration</p>
+    </div>
+    <div><span class="badge badge-l">L</span></div>
+    <div><span class="badge badge-missing">❌ ขาด</span></div>
+  </div>
+
+  <div class="gap-item">
+    <div>
+      <span class="badge badge-p2">P2</span>
+    </div>
+    <div>
+      <p class="gap-title">PM2 process management</p>
+      <p class="gap-desc">ใช้ launchd แทน — ไม่มี centralized process monitor แบบ PM2</p>
+    </div>
+    <div><span class="badge badge-s">S</span></div>
+    <div><span class="badge badge-partial">⚠️ ทางเลือก</span></div>
+  </div>
+
+  <div class="gap-item">
+    <div>
+      <span class="badge badge-p2">P2</span>
+    </div>
+    <div>
+      <p class="gap-title">Formal troubleshooting decision tree</p>
+      <p class="gap-desc">มี TOOLS.md แต่ไม่มี 5-layer decision tree แบบ Oracle 101</p>
+    </div>
+    <div><span class="badge badge-s">S</span></div>
+    <div><span class="badge badge-partial">⚠️ บางส่วน</span></div>
+  </div>
+
+  <div class="gap-item">
+    <div>
+      <span class="badge badge-p2">P2</span>
+    </div>
+    <div>
+      <p class="gap-title">Worktree policy 3 ระดับ (Strict/Preferred/Unrestricted)</p>
+      <p class="gap-desc">มี worktree skill แต่ยังไม่มี formal policy แยกตาม project risk</p>
+    </div>
+    <div><span class="badge badge-s">S</span></div>
+    <div><span class="badge badge-partial">⚠️ บางส่วน</span></div>
+  </div>
+</section>
+
+<!-- 4. Recommendations -->
+<section id="recommendations">
+  <h2>🎯 Recommendations</h2>
+  <p>ลำดับการปรับปรุงจากสำคัญไปน้อย — แต่ละขั้น build บนขั้นก่อนหน้า</p>
+
+  <div class="rec-item">
+    <h4>1️⃣ เสริม Safety hooks ให้ครบ (P0, Effort: S)</h4>
+    <p>ติดตั้ง arra-safety-hooks หรือเขียน pre-push hook เพิ่ม: block rm -rf, block --no-verify, block force push, block push ตรง main ของ project repo — นี่คือจุดที่ ROI สูงสุด (effort เล็ก ผลกระทบใหญ่)</p>
+    <div class="rec-meta">
+      <span class="badge badge-p0">P0</span>
+      <span class="badge badge-s">Effort: S</span>
+      <span class="badge badge-full">Quick Win</span>
+    </div>
+  </div>
+
+  <div class="rec-item">
+    <h4>2️⃣ สร้าง Heartbeat protocol สำหรับ subagent (P1, Effort: M)</h4>
+    <p>เพิ่ม heartbeat check ทุก 5 นาทีใน OpenClaw subagent — ถ้าเงียบเกิน 10 นาทีให้ capture/escalate — นี่แก้ปัญหา "silent agent" ที่ Oracle 101 เน้นมาก</p>
+    <div class="rec-meta">
+      <span class="badge badge-p1">P1</span>
+      <span class="badge badge-m">Effort: M</span>
+    </div>
+  </div>
+
+  <div class="rec-item">
+    <h4>3️⃣ สร้าง Discord SDLC tag system (P1, Effort: S)</h4>
+    <p>กำหนด tag pipeline: REQ → SRS → DEV → CR → BUG → QA → E2E → DOC → DEPLOY → DONE ใน Discord channels ที่ใช้งานอยู่ — ทำให้ tracking surface เห็นภาพเดียวกัน</p>
+    <div class="rec-meta">
+      <span class="badge badge-p1">P1</span>
+      <span class="badge badge-s">Effort: S</span>
+    </div>
+  </div>
+
+  <div class="rec-item">
+    <h4>4️⃣ ปลุก Faye (QA) ให้ active พร้อม feedback loop (P1, Effort: M)</h4>
+    <p>ตั้งค่า Faye ให้ทำ QA automatically หลัง PR — FAIL ให้กลับ branch/PR เดิม, fail เกิน 3 รอบให้ escalate — ทำให้ pipeline 13 steps เริ่มสมบูรณ์</p>
+    <div class="rec-meta">
+      <span class="badge badge-p1">P1</span>
+      <span class="badge badge-m">Effort: M</span>
+    </div>
+  </div>
+
+  <div class="rec-item">
+    <h4>5️⃣ สร้าง CMMI docs template สำหรับ trading system (P1, Effort: M)</h4>
+    <p>สร้าง SRS/SDD/UAT/RTM template สำหรับ StochasticReversal project — ใช้ markdown, เพิ่ม doc-update mandate ใน PR flow — นี่คือจุดเริ่มต้นของ CMMI Level 3</p>
+    <div class="rec-meta">
+      <span class="badge badge-p1">P1</span>
+      <span class="badge badge-m">Effort: M</span>
+    </div>
+  </div>
+
+  <div class="rec-item">
+    <h4>6️⃣ ศึกษาและพิจารณา maw-js (P0, Effort: L)</h4>
+    <p>maw-js เป็น investment ระยะยาว — ให้เริ่มจากการศึกษา Core 12 commands และทดลองใช้กับ fleet 2 ตัว (Anya + Alice) ก่อน — อย่า migrate ทั้งหมดในครั้งเดียว</p>
+    <div class="rec-meta">
+      <span class="badge badge-p0">P0</span>
+      <span class="badge badge-l">Effort: L</span>
+      <span class="badge badge-partial">Long-term</span>
+    </div>
+  </div>
+
+  <div class="rec-item">
+    <h4>7️⃣ เพิ่ม event triggers (P1, Effort: M)</h4>
+    <p>สร้าง trigger สำหรับ agent-idle, agent-crash, qa-failed, pr-merged — ใช้ OpenClaw cron หรือ webhook + Lambda ก็ได้ — ทำให้ระบบดูแลตัวเองได้มากขึ้น</p>
+    <div class="rec-meta">
+      <span class="badge badge-p1">P1</span>
+      <span class="badge badge-m">Effort: M</span>
+    </div>
+  </div>
+
+  <div class="rec-item">
+    <h4>8️⃣ สร้าง troubleshooting decision tree (P2, Effort: S)</h4>
+    <p>เขียน 5-layer decision tree ใน TOOLS.md หรือ skill แยก — แยกชั้น Agent/Skill → Oracle Memory → HTTP API → Orchestration → UI ตาม Oracle 101</p>
+    <div class="rec-meta">
+      <span class="badge badge-p2">P2</span>
+      <span class="badge badge-s">Effort: S</span>
+    </div>
+  </div>
+
+  <div class="rec-item">
+    <h4>9️⃣ กำหนด worktree policy ตาม project (P2, Effort: S)</h4>
+    <p>แบ่ง repo เป็น Strict (trading system), Preferred (general software), Unrestricted (tools/docs) — และตั้ง git hook ตาม level</p>
+    <div class="rec-meta">
+      <span class="badge badge-p2">P2</span>
+      <span class="badge badge-s">Effort: S</span>
+    </div>
+  </div>
+
+  <div class="rec-item">
+    <h4>🔟 T3 Federation เมื่อพร้อม (P2, Effort: L)</h4>
+    <p>เริ่มจาก maw-js ก่อน (ข้อ 6) — เมื่อคุ้นกับ maw แล้วค่อยเปิด T3 Federation สำหรับงานยาวที่ต้อง survive session death</p>
+    <div class="rec-meta">
+      <span class="badge badge-p2">P2</span>
+      <span class="badge badge-l">Effort: L</span>
+      <span class="badge badge-partial">Future</span>
+    </div>
+  </div>
+</section>
+
+<!-- 5. Score Breakdown -->
+<section id="score-detail">
+  <h2>📈 Score Breakdown</h2>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>DIMENSION</th>
+          <th>น้ำหนัก</th>
+          <th>คะแนน</th>
+          <th>Weighted</th>
+          <th>หมายเหตุ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Foundation</strong><br><small>5 Principles, Rule 6, ψ structure, philosophy</small></td>
+          <td>15%</td>
+          <td><span style="color:var(--green);font-weight:700">90/100</span></td>
+          <td>13.5</td>
+          <td>ปรัชญาตรงกัน 100%, vault ครบ, SOUL.md ดี</td>
+        </tr>
+        <tr>
+          <td><strong>Memory & Search</strong><br><small>Oracle v3, hybrid search, MCP, HTTP API, reindex</small></td>
+          <td>20%</td>
+          <td><span style="color:var(--green);font-weight:700">75/100</span></td>
+          <td>15.0</td>
+          <td>v3 ทำงานได้, hybrid search มี, แต่ MCP proxy ไม่ใช่ native</td>
+        </tr>
+        <tr>
+          <td><strong>Orchestration</strong><br><small>Delegation tiers, Task Brief, fleet management, reporting</small></td>
+          <td>20%</td>
+          <td><span style="color:var(--yellow);font-weight:700">55/100</span></td>
+          <td>11.0</td>
+          <td>มี T1/T2, Alice/Anya role split ชัด แต่ยังไม่มี federation และ unified fleet CLI</td>
+        </tr>
+        <tr>
+          <td><strong>Workflow &amp; SDLC</strong><br><small>Worktree policy, Discord pipeline, QA loop, lifecycle</small></td>
+          <td>20%</td>
+          <td><span style="color:var(--orange);font-weight:700">45/100</span></td>
+          <td>9.0</td>
+          <td>มีบางส่วนของ workflow แต่ยังไม่มี full 13-step pipeline และ formal QA loop</td>
+        </tr>
+        <tr>
+          <td><strong>Compliance</strong><br><small>CMMI docs, RTM, doc mandate, traceability</small></td>
+          <td>15%</td>
+          <td><span style="color:var(--red);font-weight:700">30/100</span></td>
+          <td>4.5</td>
+          <td>ยังไม่มี SRS/SDD/UAT/RTM เป็นระบบ แม้ markdown SoT จะพร้อม</td>
+        </tr>
+        <tr>
+          <td><strong>Autonomous Ops</strong><br><small>Cron, health checks, triggers, maintenance</small></td>
+          <td>10%</td>
+          <td><span style="color:var(--yellow);font-weight:700">60/100</span></td>
+          <td>6.0</td>
+          <td>cron และ maintenance ดี แต่ยังขาด event triggers และ richer runtime ops</td>
+        </tr>
+        <tr>
+          <td><strong>รวม</strong></td>
+          <td>100%</td>
+          <td><span style="color:var(--accent);font-weight:800">63/100</span></td>
+          <td><strong>59.0 + judgment uplift = 63</strong></td>
+          <td>ให้ uplift จากความชัดเจนของ philosophy, skills SSOT และ bidirectional sync ที่แข็งแรงกว่าค่าเฉลี่ย</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>🧠 วิธีคิดคะแนน</h3>
+  <p>คะแนนนี้ไม่ใช่ compliance แบบ binary แต่เป็น maturity score เทียบ Oracle 101 เป็น reference architecture:</p>
+  <p><strong>60-69</strong> = foundation ดี ใช้งานจริงได้ แต่ orchestration/compliance ยังไม่ mature<br>
+  <strong>70-79</strong> = strong operator stack เริ่มเข้าใกล้ Oracle-native workflow<br>
+  <strong>80+</strong> = ใกล้ Oracle 101 best practices ครบทุกมิติ</p>
+  <p>ดังนั้น 63/100 แปลว่า <strong>"ฐานแน่นแล้ว แต่ยังไม่เป็น full Oracle workflow machine"</strong> ค่ะ</p>
+</section>
+
+<footer>
+  สร้างจาก Oracle 101 chapters 00-10 + 06B + 08B • พร้อม push ขึ้น GitHub Pages ได้ทันที ✨
+</footer>
+
+</div>
+</body>
+</html>
