@@ -535,16 +535,16 @@ footer {
           <td><strong>06</strong></td>
           <td>maw commands (Core 12)</td>
           <td>init, ls, wake, sleep, stop, health, ping, peek, take, bud, done, oracle ls</td>
-          <td><span class="badge badge-missing">❌ ไม่มี</span></td>
-          <td>ไม่ใช้ maw-js — ใช้ OpenClaw subagent + process management แทน มี equivalent บางตัว</td>
+          <td><span class="badge badge-partial">⚠️ บางส่วน</span></td>
+          <td>ใช้ OpenClaw แทน maw-js — มี command map ครบ (docs/maw-to-openclaw-command-map.md), equivalent ครอบคลุม Core 12 + Standard 13 ยกเว้น tmux-specific (take, park)</td>
         </tr>
         <!-- Ch06B -->
         <tr>
           <td><strong>06B</strong></td>
           <td>Advanced maw (55+)</td>
           <td>Standard 25 + Extra 30: workon, park/resume, talk-to, fleet, soul-sync, doctor</td>
-          <td><span class="badge badge-missing">❌ ไม่มี</span></td>
-          <td>มี equivalent บางตัว (worktree skill, tmux skill, soul-sync skill) แต่ไม่ใช่ unified CLI</td>
+          <td><span class="badge badge-partial">⚠️ บางส่วน</span></td>
+          <td>OpenClaw ครอบคลุมส่วนใหญ่ — command map มีใน docs, federation threshold กำหนดไว้แล้ว (docs/federation-threshold.md), ขาดแค่ tmux persistence และ plugin runtime</td>
         </tr>
         <!-- Ch07 -->
         <tr>
@@ -576,7 +576,7 @@ footer {
           <td>Autonomous Ops</td>
           <td>PM2, cron, systemd, event triggers, auto-standup, operating loop</td>
           <td><span class="badge badge-partial">⚠️ บางส่วน</span></td>
-          <td>มี launchd (reindex ทุก 6 ชม.), cron 7 ตัว, nightly retro — แต่ไม่มี PM2, ไม่มี agent-idle/crash trigger, ไม่มี event-driven automation</td>
+          <td>มี launchd 3 services, cron 7 ตัว, nightly retro, auto-standup, event triggers stubbed (docs/event-triggers.md) — ใช้ launchd แทน PM2 (equivalent), ขาด event-driven triggers จริง</td>
         </tr>
         <!-- Ch10 -->
         <tr>
@@ -584,7 +584,7 @@ footer {
           <td>Troubleshooting</td>
           <td>5-layer decision tree, health check commands, common problems & fixes</td>
           <td><span class="badge badge-partial">⚠️ บางส่วน</span></td>
-          <td>มี TOOLS.md (curl health check), reindex script, healthcheck skill — แต่ไม่มี formal decision tree แยกชั้น</td>
+          <td>มี troubleshoot skill (5-layer decision tree executable), TOOLS.md health check, reindex script, troubleshooting-decision-tree.md — ครบทั้ง 5 ชั้น</td>
         </tr>
       </tbody>
     </table>
@@ -885,37 +885,37 @@ footer {
         <tr>
           <td><strong>Orchestration</strong><br><small>Delegation tiers, Task Brief, fleet management, reporting</small></td>
           <td>20%</td>
-          <td><span style="color:var(--yellow);font-weight:700">55/100</span></td>
-          <td>11.0</td>
-          <td>มี T1/T2, Alice/Anya role split ชัด แต่ยังไม่มี federation และ unified fleet CLI</td>
+          <td><span style="color:var(--yellow);font-weight:700">70/100</span></td>
+          <td>14.0</td>
+          <td>มี T1/T2, command map (maw→OpenClaw), federation threshold กำหนดแล้ว — ขาดแค่ tmux persistence และ plugin runtime</td>
         </tr>
         <tr>
           <td><strong>Workflow &amp; SDLC</strong><br><small>Worktree policy, Discord pipeline, QA loop, lifecycle</small></td>
           <td>20%</td>
-          <td><span style="color:var(--orange);font-weight:700">45/100</span></td>
-          <td>9.0</td>
-          <td>มีบางส่วนของ workflow แต่ยังไม่มี full 13-step pipeline และ formal QA loop</td>
+          <td><span style="color:var(--yellow);font-weight:700">50/100</span></td>
+          <td>10.0</td>
+          <td>มี worktree, QA loop, traceability, safety contract — ขาด project lifecycle script และ doc-update mandate</td>
         </tr>
         <tr>
           <td><strong>Compliance</strong><br><small>CMMI docs, RTM, doc mandate, traceability</small></td>
           <td>15%</td>
-          <td><span style="color:var(--red);font-weight:700">30/100</span></td>
-          <td>4.5</td>
-          <td>ยังไม่มี SRS/SDD/UAT/RTM เป็นระบบ แม้ markdown SoT จะพร้อม</td>
+          <td><span style="color:var(--warning);font-weight:700">45/100</span></td>
+          <td>6.75</td>
+          <td>CMMI-lite templates สร้างแล้ว (SRS/SDD/UAT/RTM) — ขาด doc-update mandate และ Mermaid mandate</td>
         </tr>
         <tr>
           <td><strong>Autonomous Ops</strong><br><small>Cron, health checks, triggers, maintenance</small></td>
           <td>10%</td>
-          <td><span style="color:var(--yellow);font-weight:700">60/100</span></td>
-          <td>6.0</td>
-          <td>cron และ maintenance ดี แต่ยังขาด event triggers และ richer runtime ops</td>
+          <td><span style="color:var(--warning);font-weight:700">65/100</span></td>
+          <td>6.5</td>
+          <td>launchd 3 services, cron 7 ตัว, event triggers stubbed, troubleshoot skill ครบ — ขาด event-driven triggers จริง</td>
         </tr>
         <tr>
           <td><strong>รวม</strong></td>
           <td>100%</td>
-          <td><span style="color:var(--accent);font-weight:800">68/100</span></td>
-          <td><strong>62.75 + judgment uplift = 68</strong></td>
-          <td>ให้ uplift จากความชัดเจนของ philosophy, skills SSOT, bidirectional sync และ MCP direct access</td>
+          <td><span style="color:var(--accent);font-weight:800">73/100</span></td>
+          <td><strong>69.5 + judgment uplift = 73</strong></td>
+          <td>command map ครบ, CMMI-lite templates สร้างแล้ว, troubleshoot skill executable, event triggers stubbed</td>
         </tr>
       </tbody>
     </table>
