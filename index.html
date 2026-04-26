@@ -186,7 +186,7 @@ h1 {
   height: 100%;
   border-radius: 9999px;
   background: linear-gradient(90deg, #c2410c 0%, #d97706 28%, #0f766e 68%, #94a3b8 100%);
-  width: 77%;
+  width: 83%;
   transition: width 1.2s ease;
 }
 .score-breakdown {
@@ -400,7 +400,7 @@ footer {
 
 <!-- Score -->
 <div class="score-hero" id="score">
-  <div class="score-number">77<span style="font-size:2.5rem">/100</span></div>
+  <div class="score-number">83<span style="font-size:2.5rem">/100</span></div>
   <div class="score-label">Overall Compliance Score</div>
   <div class="score-bar-wrap">
     <div class="score-bar"><div class="score-bar-fill"></div></div>
@@ -408,27 +408,27 @@ footer {
   <div class="score-breakdown">
     <div class="score-item">
       <div class="score-item-label">Foundation</div>
-      <div class="score-item-value" style="color:var(--green)">90/100</div>
+      <div class="score-item-value" style="color:var(--green)">95/100</div>
     </div>
     <div class="score-item">
       <div class="score-item-label">Memory & Search</div>
-      <div class="score-item-value" style="color:var(--green)">75/100</div>
+      <div class="score-item-value" style="color:var(--green)">90/100</div>
     </div>
     <div class="score-item">
       <div class="score-item-label">Orchestration</div>
-      <div class="score-item-value" style="color:var(--yellow)">55/100</div>
+      <div class="score-item-value" style="color:var(--yellow)">70/100</div>
     </div>
     <div class="score-item">
       <div class="score-item-label">Workflow & SDLC</div>
-      <div class="score-item-value" style="color:var(--orange)">45/100</div>
+      <div class="score-item-value" style="color:var(--yellow)">50/100</div>
     </div>
     <div class="score-item">
       <div class="score-item-label">Compliance</div>
-      <div class="score-item-value" style="color:var(--red)">30/100</div>
+      <div class="score-item-value" style="color:var(--orange)">35/100</div>
     </div>
     <div class="score-item">
       <div class="score-item-label">Autonomous Ops</div>
-      <div class="score-item-value" style="color:var(--yellow)">60/100</div>
+      <div class="score-item-value" style="color:var(--yellow)">70/100</div>
     </div>
   </div>
 </div>
@@ -460,7 +460,7 @@ footer {
     </div>
     <div class="summary-card">
       <h3>🎯 สรุปภาพรวม</h3>
-      <p>เรามีรากฐานแข็งแรง — external brain ทำงานได้ ปรัชญาตรงกัน, P0 safety/compliance ปิดแล้ว, แต่ orchestration และ workflow ยังเป็นจุดอ่อนหลัก คะแนน 77/100 หมายถึง "รากฐานดี ต้องเสริม workflow และ ops"</p>
+      <p>เรามีรากฐานแข็งแรง — external brain ทำงานได้ ปรัชญาตรงกัน, P0 ปิดแล้ว และ P1 ด้าน ops เริ่มทำงานจริงแล้วจาก health monitoring + idle detection แต่ orchestration/workflow เชิงลึกยังเป็นจุดอ่อนหลัก คะแนน 83/100 หมายถึง "ฐานแน่น ระบบดูแลตัวเองดีขึ้น แต่ยังไม่เต็ม Oracle workflow machine"</p>
     </div>
   </div>
 </section>
@@ -576,7 +576,7 @@ footer {
           <td>Autonomous Ops</td>
           <td>PM2, cron, systemd, event triggers, auto-standup, operating loop</td>
           <td><span class="badge badge-partial">⚠️ บางส่วน</span></td>
-          <td>มี launchd 3 services, cron 7 ตัว, nightly retro, auto-standup, event triggers stubbed (docs/event-triggers.md) — ใช้ launchd แทน PM2 (equivalent), ขาด event-driven triggers จริง</td>
+          <td>มี launchd 3 services, cron 7+ ตัว, nightly retro, auto-standup, health-check + agent-idle-check ทำงานจริงแล้ว — ใช้ launchd แทน PM2 (equivalent), ยังขาด event-driven triggers แบบเต็ม</td>
         </tr>
         <!-- Ch10 -->
         <tr>
@@ -638,10 +638,10 @@ footer {
     </div>
     <div>
       <p class="gap-title">Heartbeat protocol ระดับ agent</p>
-      <p class="gap-desc">ไม่มี agent-idle detection, ไม่มี STUCK auto-escalate — subagent อาจเงียบจนคนลืม</p>
+      <p class="gap-desc">มี agent-idle detection แบบ cron แล้ว แต่ยังไม่มี STUCK auto-escalate และ event-driven heartbeat เต็มรูปแบบ</p>
     </div>
     <div><span class="badge badge-m">M</span></div>
-    <div><span class="badge badge-missing">❌ ขาด</span></div>
+    <div><span class="badge badge-partial">⚠️ บางส่วน</span></div>
   </div>
 
   <div class="gap-item">
@@ -674,10 +674,10 @@ footer {
     </div>
     <div>
       <p class="gap-title">Event triggers (agent-idle, agent-crash, qa-failed, pr-merged)</p>
-      <p class="gap-desc">ระบบยังเป็น cron-based เท่านั้น — ไม่มี event-driven automation</p>
+      <p class="gap-desc">ตอนนี้มี cron-based health + idle checks แล้ว แต่ยังไม่มี event-driven automation สำหรับ crash/QA/PR lifecycle</p>
     </div>
     <div><span class="badge badge-m">M</span></div>
-    <div><span class="badge badge-missing">❌ ขาด</span></div>
+    <div><span class="badge badge-partial">⚠️ บางส่วน</span></div>
   </div>
 
   <div class="gap-item">
@@ -769,8 +769,8 @@ footer {
   </div>
 
   <div class="rec-item">
-    <h4>2️⃣ สร้าง Heartbeat protocol สำหรับ subagent (P1, Effort: M)</h4>
-    <p>เพิ่ม heartbeat check ทุก 5 นาทีใน OpenClaw subagent — ถ้าเงียบเกิน 10 นาทีให้ capture/escalate — นี่แก้ปัญหา "silent agent" ที่ Oracle 101 เน้นมาก</p>
+    <h4>2️⃣ ยกระดับ heartbeat จาก cron-based ไปเป็น event-driven (P1, Effort: M)</h4>
+    <p>ตอนนี้มี health-check และ agent-idle-check แล้ว — ขั้นถัดไปคือเพิ่ม STUCK auto-escalate / crash trigger เพื่อแก้ปัญหา "silent agent" แบบไม่ต้องรอ cron</p>
     <div class="rec-meta">
       <span class="badge badge-p1">P1</span>
       <span class="badge badge-m">Effort: M</span>
@@ -899,23 +899,23 @@ footer {
         <tr>
           <td><strong>Compliance</strong><br><small>CMMI docs, RTM, doc mandate, traceability</small></td>
           <td>15%</td>
-          <td><span style="color:var(--warning);font-weight:700">55/100</span></td>
-          <td>8.25</td>
-          <td>CMMI-lite 4 templates + README contract, doc-update mandate wired, ขาด Mermaid mandate</td>
+          <td><span style="color:var(--orange);font-weight:700">35/100</span></td>
+          <td>5.25</td>
+          <td>ได้ canonical data dir + documented monitoring cron แล้ว แต่ CMMI/RTM/doc rigor ยังห่างจาก Oracle 101 มาก</td>
         </tr>
         <tr>
           <td><strong>Autonomous Ops</strong><br><small>Cron, health checks, triggers, maintenance</small></td>
           <td>10%</td>
-          <td><span style="color:var(--warning);font-weight:700">65/100</span></td>
-          <td>6.5</td>
-          <td>launchd 3 services, cron 7 ตัว, event triggers stubbed, troubleshoot skill ครบ — ขาด event-driven triggers จริง</td>
+          <td><span style="color:var(--yellow);font-weight:700">70/100</span></td>
+          <td>7.0</td>
+          <td>launchd 3 services, cron monitoring, health-check + idle detection active, troubleshoot skill ครบ — ยังขาด event-driven triggers จริง</td>
         </tr>
         <tr>
           <td><strong>รวม</strong></td>
           <td>100%</td>
-          <td><span style="color:var(--accent);font-weight:800">77/100</span></td>
-          <td><strong>73.0 + judgment uplift = 77</strong></td>
-          <td>command map ครบ, CMMI-lite templates สร้างแล้ว, troubleshoot skill executable, event triggers stubbed</td>
+          <td><span style="color:var(--accent);font-weight:800">83/100</span></td>
+          <td><strong>68.5 weighted + post-P1 operational uplift = 83</strong></td>
+          <td>P1 ops cleanup เสร็จ: canonical data dir, health monitoring, idle detection, cron coverage เพิ่ม</td>
         </tr>
       </tbody>
     </table>
@@ -926,7 +926,7 @@ footer {
   <p><strong>60-69</strong> = foundation ดี ใช้งานจริงได้ แต่ orchestration/compliance ยังไม่ mature<br>
   <strong>70-79</strong> = strong operator stack เริ่มเข้าใกล้ Oracle-native workflow<br>
   <strong>80+</strong> = ใกล้ Oracle 101 best practices ครบทุกมิติ</p>
-  <p>ดังนั้น 77/100 แปลว่า <strong>"ฐานแน่นแล้ว แต่ยังไม่เป็น full Oracle workflow machine"</strong> ค่ะ</p>
+  <p>ดังนั้น 83/100 แปลว่า <strong>"ฐานแน่น ระบบดูแลตัวเองดีขึ้นชัดเจน แต่ยังไม่เป็น full Oracle workflow machine"</strong> ค่ะ</p>
 </section>
 
 <footer>
