@@ -400,7 +400,7 @@ footer {
 
 <!-- Score -->
 <div class="score-hero" id="score">
-  <div class="score-number">73<span style="font-size:2.5rem">/100</span></div>
+  <div class="score-number">77<span style="font-size:2.5rem">/100</span></div>
   <div class="score-label">Overall Compliance Score</div>
   <div class="score-bar-wrap">
     <div class="score-bar"><div class="score-bar-fill"></div></div>
@@ -456,11 +456,11 @@ footer {
     </div>
     <div class="summary-card">
       <h3>⚠️ ที่ยังขาดอยู่</h3>
-      <p>maw-js orchestration layer, T3 Federation, CMMI Level 3 docs, RTM traceability, safety hooks ครบ, heartbeat protocol ระดับ agent, QA feedback loop, event triggers</p>
+      <p>maw-js orchestration layer, T3 Federation, heartbeat protocol ระดับ agent, QA feedback loop, event triggers, plugin runtime</p>
     </div>
     <div class="summary-card">
       <h3>🎯 สรุปภาพรวม</h3>
-      <p>เรามีรากฐานแข็งแรง — external brain ทำงานได้ ปรัชญาตรงกัน แต่ orchestration, workflow และ compliance ยังเป็นจุดอ่อนหลัก คะแนน 77/100 หมายถึง "รากฐานดี ต้องเสริม workflow และ docs"</p>
+      <p>เรามีรากฐานแข็งแรง — external brain ทำงานได้ ปรัชญาตรงกัน, P0 safety/compliance ปิดแล้ว, แต่ orchestration และ workflow ยังเป็นจุดอ่อนหลัก คะแนน 77/100 หมายถึง "รากฐานดี ต้องเสริม workflow และ ops"</p>
     </div>
   </div>
 </section>
@@ -567,8 +567,8 @@ footer {
           <td><strong>08B</strong></td>
           <td>CMMI & Compliance</td>
           <td>CMMI Level 3, SRS/SDD/UAT/RTM docs, doc-update mandate, Mermaid mandate</td>
-          <td><span class="badge badge-missing">❌ ไม่มี</span></td>
-          <td>ยังไม่มี formal CMMI process, ใช้ markdown เป็น SoT (ตรง Mermaid mandate) แต่ไม่มี SRS/SDD/UAT/RTM template</td>
+          <td><span class="badge badge-partial">⚠️ บางส่วน</span></td>
+          <td>CMMI-lite 4 templates + README contract, doc-update mandate wired, safety hooks documented</td>
         </tr>
         <!-- Ch09 -->
         <tr>
@@ -796,8 +796,8 @@ footer {
   </div>
 
   <div class="rec-item">
-    <h4>5️⃣ สร้าง CMMI docs template สำหรับ trading system (P1, Effort: M)</h4>
-    <p>สร้าง SRS/SDD/UAT/RTM template สำหรับ StochasticReversal project — ใช้ markdown, เพิ่ม doc-update mandate ใน PR flow — นี่คือจุดเริ่มต้นของ CMMI Level 3</p>
+    <h4>5️⃣ ขยาย CMMI-lite rollout สำหรับทุก project (P1, Effort: M)</h4>
+    <p>ใช้ SRS/SDD/UAT/RTM template เป็น baseline สำหรับทุก project repo และคง doc-update mandate ใน PR flow — ตอนนี้ P0 สำคัญปิดแล้ว เหลือทำให้ adoption กว้างขึ้น</p>
     <div class="rec-meta">
       <span class="badge badge-p1">P1</span>
       <span class="badge badge-m">Effort: M</span>
@@ -894,7 +894,7 @@ footer {
           <td>20%</td>
           <td><span style="color:var(--yellow);font-weight:700">50/100</span></td>
           <td>10.0</td>
-          <td>มี worktree, QA loop, traceability, safety contract — ขาด project lifecycle script และ doc-update mandate</td>
+          <td>มี worktree, QA loop, traceability, safety contract, project lifecycle script — ขาด Mermaid mandate</td>
         </tr>
         <tr>
           <td><strong>Compliance</strong><br><small>CMMI docs, RTM, doc mandate, traceability</small></td>
