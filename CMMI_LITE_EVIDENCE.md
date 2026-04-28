@@ -204,7 +204,7 @@ ls ~/ghq/github.com/PawitKetsukAtom/oracle-vault/docs/cmmi-lite/    # directory 
 |-----|------------------------|-------------|----------|
 | C-01 | CMMI Level 3 process areas | ⚠️ CMMI-lite adopted (not full Level 3) | `oracle-vault/docs/cmmi-lite/` |
 | C-02 | SRS template | ✅ SRS-lite template | `oracle-vault/docs/cmmi-lite/SRS-lite.md` |
-| C-03 | SDD template | ⚠️ No standalone SDD template | N/A — CMMI-LITE template includes architecture section |
+| C-03 | SDD template | ✅ SDD-lite template | `oracle-vault/docs/cmmi-lite/SDD-lite.md` |
 | C-04 | UAT template | ✅ UAT-lite template | `oracle-vault/docs/cmmi-lite/UAT-lite.md` |
 | C-05 | RTM template | ✅ RTM-lite template | `oracle-vault/docs/cmmi-lite/RTM-lite.md` |
 | C-06 | CMMI-LITE full template | ✅ CMMI-LITE.md with all 4 templates | `oracle-vault/ψ/templates/CMMI-LITE.md` |
@@ -213,7 +213,7 @@ ls ~/ghq/github.com/PawitKetsukAtom/oracle-vault/docs/cmmi-lite/    # directory 
 | C-09 | README contract per repo | ✅ Assessment repo has README | Repo root |
 | C-10 | Traceability from requirement → evidence → score | ✅ This document (CMMI_LITE_EVIDENCE.md) | This file |
 
-**Scoring Rationale:** 55/100 — CMMI-lite approach with 4 templates, traceability template, verification checklist, and DoD aligned to Oracle 101. The creation of this evidence chain document addresses the key CMMI-lite acceptance criterion. Deduction: no standalone SDD template (-10), no Mermaid mandate (-10), no formal SRS for each project (-10), CMMI-lite not full Level 3 (-15).
+**Scoring Rationale:** 55/100 — CMMI-lite approach with 5 templates (SRS, SDD, RTM, UAT, CMMI-LITE), traceability template, verification checklist, and DoD aligned to Oracle 101. The creation of this evidence chain document addresses the key CMMI-lite acceptance criterion. Deduction: no Mermaid mandate (-10), no formal SRS for each project (-10), CMMI-lite not full Level 3 (-10), templates not systematically applied to all projects (-15).
 
 **Note:** The index.html shows "30/100" for Compliance but the PR #2 branch (feat/p1-assessment-rescore-83) rescores to 55/100. This document aligns with the rescored assessment. The original 30/100 was conservative; evidence review supports 55/100.
 
@@ -222,6 +222,7 @@ ls ~/ghq/github.com/PawitKetsukAtom/oracle-vault/docs/cmmi-lite/    # directory 
 **Verification:**
 ```bash
 ls ~/ghq/github.com/PawitKetsukAtom/oracle-vault/docs/cmmi-lite/SRS-lite.md     # exists
+ls ~/ghq/github.com/PawitKetsukAtom/oracle-vault/docs/cmmi-lite/SDD-lite.md     # exists
 ls ~/ghq/github.com/PawitKetsukAtom/oracle-vault/docs/cmmi-lite/RTM-lite.md     # exists
 ls ~/ghq/github.com/PawitKetsukAtom/oracle-vault/docs/cmmi-lite/UAT-lite.md     # exists
 ls ~/ghq/github.com/PawitKetsukAtom/oracle-vault/ψ/templates/CMMI-LITE.md        # exists
@@ -237,7 +238,7 @@ ls ~/ghq/github.com/PawitKetsukAtom/oracle-vault/ψ/templates/CMMI-LITE.md      
 | Req | What Oracle 101 Expects | What We Have | Evidence |
 |-----|------------------------|-------------|----------|
 | A-01 | Process management (PM2/systemd equivalent) | ✅ launchd 3 services (server, reindex, dashboard) | `launchctl list \| grep oracle` |
-| A-02 | Cron-based scheduled tasks | ✅ 7+ cron entries (health check, idle check, radar, maintenance, heartbeats) | `crontab -l` |
+| A-02 | Cron-based scheduled tasks | ✅ 4 active cron entries (health check, idle check, radar, maintenance) | `crontab -l` |
 | A-03 | Health check script | ✅ `health-check.sh` — checks API + alerts | `~/.oracle-v3/health-check.sh` |
 | A-04 | Agent idle detection | ✅ `agent-idle-check.sh` — weekdays, work hours | `~/.oracle-v3/agent-idle-check.sh` |
 | A-05 | Auto-restart on crash | ⚠️ launchd KeepAlive=yes, but no active crash handler | `com.oracle.server.plist` |
@@ -254,7 +255,7 @@ ls ~/ghq/github.com/PawitKetsukAtom/oracle-vault/ψ/templates/CMMI-LITE.md      
 **Verification:**
 ```bash
 launchctl list | grep oracle                    # ≥3 services
-crontab -l | grep -c "oracle\|openclaw"         # ≥7 entries
+crontab -l | grep -v '^#' | grep -c '\.sh'     # ≥4 active entries
 ls ~/.oracle-v3/health-check.sh                 # exists (executable)
 ls ~/.oracle-v3/agent-idle-check.sh             # exists (executable)
 ls ~/.openclaw/workspace/skills/troubleshoot/   # exists
@@ -326,10 +327,12 @@ ls ~/ghq/github.com/PawitKetsukAtom/oracle-vault/docs/cmmi-lite/
 
 ### Compliance
 ```bash
-# Check CMMI-lite templates
+# Check CMMI-lite templates (5 files)
+ls ~/ghq/github.com/PawitKetsukAtom/oracle-vault/docs/cmmi-lite/
 cat ~/ghq/github.com/PawitKetsukAtom/oracle-vault/docs/cmmi-lite/SRS-lite.md | head -10
 cat ~/ghq/github.com/PawitKetsukAtom/oracle-vault/docs/cmmi-lite/RTM-lite.md | head -10
 cat ~/ghq/github.com/PawitKetsukAtom/oracle-vault/docs/cmmi-lite/UAT-lite.md | head -10
+cat ~/ghq/github.com/PawitKetsukAtom/oracle-vault/docs/cmmi-lite/SDD-lite.md | head -10
 
 # Check verification checklist
 cat ~/ghq/github.com/PawitKetsukAtom/oracle-vault/docs/verification-checklist.md | head -20
@@ -368,7 +371,7 @@ head -20 ~/.openclaw/workspace/skills/troubleshoot/SKILL.md
 | G-04 | Workflow | No formal 13-step pipeline | Oracle 101 Ch08 full flow not documented as single artifact | Gap — should create |
 | G-05 | Workflow | No Discord SDLC tag system | Lifecycle tracking not visible in Discord | Gap — should create |
 | G-06 | Workflow | No Mermaid mandate | Architecture docs lack visual diagrams | Deferred — low priority |
-| G-07 | Compliance | No standalone SDD-lite template | Software Design Document missing | Gap — should create |
+| G-07 | ~~Compliance~~ | ~~No standalone SDD-lite template~~ | ~~Software Design Document missing~~ | ~~Gap~~ — **FIXED**: SDD-lite.md exists in `oracle-vault/docs/cmmi-lite/` |
 | G-08 | Compliance | CMMI-lite not applied to all projects | Templates exist but not systematically used | Adoption gap |
 | G-09 | Compliance | No /awaken skill | Oracle 101 requires wake/awaken lifecycle | Missing skill |
 | G-10 | Autonomous Ops | Event triggers stubbed only | No production event-driven automation | Gap — should implement |
